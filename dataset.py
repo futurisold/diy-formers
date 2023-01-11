@@ -1,4 +1,5 @@
 import regex as re
+from ftfy import fix_text
 from torch.utils.data import Dataset
 
 
@@ -29,8 +30,8 @@ class WMTDataset(Dataset):
     def __getitem__(self, idx): return self._parse_pair(self.src[idx], self.tgt[idx])
 
     def _parse_pair(self, src_line: str, tgt_line: str):
-        src_line = re.findall(self.pattern, src_line)
-        tgt_line = re.findall(self.pattern, tgt_line)
+        src_line = re.findall(self.pattern, fix_text(src_line))
+        tgt_line = re.findall(self.pattern, fix_text(tgt_line))
 
         return src_line, tgt_line
 
