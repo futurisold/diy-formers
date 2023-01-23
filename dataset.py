@@ -33,8 +33,3 @@ class KJBible(Dataset):
 
     def _parse_line(self, line: str) -> str: return re.findall(self.pattern, fix_text(line))
 
-
-if __name__ == '__main__':
-    dataset = KJBible('data/kjv.txt')
-    print(dataset[0])
-
