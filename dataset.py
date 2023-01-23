@@ -1,11 +1,8 @@
-import time
 import regex as re
 from ftfy import fix_text
 
-s = time.time()
 from torch.utils.data import Dataset
-e = time.time()
-print(e-s)
+
 
 class KJBible(Dataset):
     def __init__(self, src: str) -> None:
