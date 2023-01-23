@@ -1,13 +1,15 @@
+import time
 import regex as re
 from ftfy import fix_text
+
+s = time.time()
 from torch.utils.data import Dataset
+e = time.time()
+print(e-s)
 
-
-class WMTDataset(Dataset):
-    def __init__(self, src_path: str, tgt_path: str):
-        self.src = open(src_path, 'r').readlines()
-        self.tgt = open(tgt_path, 'r').readlines()
-        assert len(self.src) == len(self.tgt), "Source and target files must have the same number of lines"
+class KJBible(Dataset):
+    def __init__(self, src: str) -> None:
+        self.src = open(src, 'r').readlines()
 
         # demistifying the regex behind GPT-2 encoder: https://github.com/openai/gpt-2/blob/master/src/encoder.py#L53
         self.pattern =  ''.join([
@@ -25,13 +27,14 @@ class WMTDataset(Dataset):
             "\s+"                  # matches multiple spaces
         ])
 
-    def __len__(self): return len(self.src)
+    def __len__(self) -> int: return len(self.src)
 
-    def __getitem__(self, idx): return self._parse_pair(self.src[idx], self.tgt[idx])
+    def __getitem__(self, idx: int) -> list[str]: return self._parse_line(self.src[idx])
 
-    def _parse_pair(self, src_line: str, tgt_line: str):
-        src_line = re.findall(self.pattern, fix_text(src_line))
-        tgt_line = re.findall(self.pattern, fix_text(tgt_line))
+    def _parse_line(self, line: str) -> str: return re.findall(self.pattern, fix_text(line))
 
-        return src_line, tgt_line
+
+if __name__ == '__main__':
+    dataset = KJBible('data/kjv.txt')
+    print(dataset[0])
 
