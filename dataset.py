@@ -73,7 +73,6 @@ class KJBible(Dataset):
 
         return tuple(new_token)
 
-
     def __init_vocab(self):
         tokens = self.__tokenize(self.corpus)[:-1] # last is garbage
         vocab = []
