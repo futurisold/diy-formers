@@ -22,11 +22,11 @@ class Encoder:
             "'ll|",                # matches contractions such as "we'll" -> [we, 'll]
             "'d|",                 # matches contractions such as "she'd" -> [she, 'd]
             "'m|"                  # matches contractions such as "i'm" -> [i, 'm]
-            " ?\p{L}+|",           # matches only words
-            " ?\p{N}+|",           # matches only numbers
-            " ?[^\s\p{L}\p{N}]+|", # matches everything else
-            "\s+(?!\S)|",          # matches spaces
-            "\s+"                  #
+            " ?\p{L}+|",           # matches one or more letters, with an optional preceding space
+            " ?\p{N}+|",           # matches one or more digits, with an optional preceding space
+            " ?[^\s\p{L}\p{N}]+|", # matches one or more non-letter, non-digit characters, with an optional preceding space
+            "\s+(?!\S)|",          # matches one or more spaces that are not followed by a non-space
+            "\s+"                  # matches one or more spaces
         ])
         self.__merges = 40_000 # aiming for what GPT-1 had
         # corpus as text
